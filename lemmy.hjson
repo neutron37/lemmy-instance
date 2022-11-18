@@ -13,13 +13,13 @@
   }
 
   # the domain name of your instance (eg "lemmy.ml")
-  hostname: "mydomain.ml"
+  hostname: "localhost"
   # address where lemmy should listen for incoming requests
   bind: "0.0.0.0"
   # port where lemmy should listen for incoming requests
   port: 8536
   # Whether the site is available over TLS. Needs to be true for federation to work.
-  tls_enabled: true
+  tls_enabled: false
 
   # pictrs host
   pictrs_url: "http://pictrs:8080"
