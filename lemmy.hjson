@@ -39,5 +39,11 @@
     # maximum number of active sql connections
     pool_size: 5
   }
+  captcha: {
+    # Whether captcha is required for signup
+    enabled: true
+    # Can be easy, medium, or hard
+    difficulty: "medium"
+  }
 }
 
