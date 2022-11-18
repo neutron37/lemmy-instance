@@ -1,4 +1,10 @@
-Try `docker compose up` and visit https://localhost/. Note: You must choose to bypass the HTTPS/TLS warning.
+Try `docker compose up` and visit https://localhost/.
+
+Notes:
+* You must choose to bypass the HTTPS/TLS warning.
+* You may need to run `docker compose up` more than once, as it seems database may time out on first attempt.
+
+
 
 # How I got it working
 
