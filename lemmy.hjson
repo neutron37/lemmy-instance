@@ -19,7 +19,7 @@
   # port where lemmy should listen for incoming requests
   port: 8536
   # Whether the site is available over TLS. Needs to be true for federation to work.
-  tls_enabled: false
+  tls_enabled: true
 
   # pictrs host
   pictrs_url: "http://pictrs:8080"
