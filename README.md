@@ -1,5 +1,9 @@
 Try `docker compose up` and visit https://localhost/.
 
+Login with:
+* user: lemmy
+* password: lemmylemmy
+
 Notes:
 * It may take a few moments to get started.
 * You must choose to bypass the HTTPS/TLS warning in the browser.
