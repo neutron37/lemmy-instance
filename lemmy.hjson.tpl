@@ -13,7 +13,7 @@
   }
 
   # the domain name of your instance (eg "lemmy.ml")
-  hostname: "${HOSTNAME}"
+  hostname: "${LEMMY_EXTERNAL_HOST}"
   # address where lemmy should listen for incoming requests
   bind: "0.0.0.0"
   # port where lemmy should listen for incoming requests
