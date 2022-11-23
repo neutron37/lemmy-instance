@@ -1,1 +1,4 @@
 volumes
+prod.env
+lemmy.*.hjson
+nginx.*.conf
