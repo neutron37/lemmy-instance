@@ -5,15 +5,15 @@
 
   setup: {
     # username for the admin user
-    admin_username: "lemmy"
+    admin_username: "${ADMIN_USERNAME}"
     # password for the admin user
-    admin_password: "lemmylemmy"
+    admin_password: "${ADMIN_PASSWORD}"
     # name of the site (can be changed later)
-    site_name: "mylemmyinstance"
+    site_name: "${SITE_NAME}"
   }
 
   # the domain name of your instance (eg "lemmy.ml")
-  hostname: "localhost"
+  hostname: "${LEMMY_EXTERNAL_HOST}"
   # address where lemmy should listen for incoming requests
   bind: "0.0.0.0"
   # port where lemmy should listen for incoming requests
@@ -23,6 +23,7 @@
 
   # pictrs host
   pictrs_url: "http://pictrs:8080"
+  pictrs_api_key: "${PICTRS_API_KEY}"
 
   # settings related to the postgresql database
   database: {
@@ -31,7 +32,7 @@
     # username to connect to postgres
     user: "lemmy"
     # password to connect to postgres
-    password: "password"
+    password: "${DATABASE_PASSWORD}"
     # host where postgres is running
     host: "postgres"
     # port where postgres can be accessed

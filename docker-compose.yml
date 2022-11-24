@@ -19,9 +19,12 @@ services:
       - 80:80 
       - 443:443
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/lemmy.conf
+      - ./nginx.${LEMMY_ENV:?err}.conf:/etc/nginx/conf.d/default.conf
       - ./letsencrypt:/etc/letsencrypt/live
+      - ./certbot:/var/www/certbot
     restart: always
+    environment:
+      - LEMMY_EXTERNAL_HOST=${LEMMY_EXTERNAL_HOST:?err}
     depends_on:
       - pictrs
       - lemmy-ui
@@ -35,7 +38,7 @@ services:
     environment:
       - RUST_LOG="warn,lemmy_server=info,lemmy_api=info,lemmy_api_common=info,lemmy_api_crud=info,lemmy_apub=info,lemmy_db_schema=info,lemmy_db_views=info,lemmy_db_views_actor=info,lemmy_db_views_moderator=info,lemmy_routes=info,lemmy_utils=info,lemmy_websocket=info"
     volumes:
-      - ./lemmy.hjson:/config/config.hjson
+      - ./lemmy.${LEMMY_ENV:?err}.hjson:/config/config.hjson
     depends_on:
       - postgres
       - pictrs
@@ -49,7 +52,7 @@ services:
       # this needs to match the hostname defined in the lemmy service
       - LEMMY_INTERNAL_HOST=lemmy:8536
       # set the outside hostname here
-      - LEMMY_EXTERNAL_HOST=localhost
+      - LEMMY_EXTERNAL_HOST=${LEMMY_EXTERNAL_HOST:?err}
       - LEMMY_HTTPS=true
     depends_on:
       - lemmy
@@ -64,7 +67,7 @@ services:
     networks:
       - lemmyinternal
     environment:
-      - PICTRS__API_KEY=API_KEY
+      - PICTRS__API_KEY=${PICTRS_API_KEY:?err}
     user: 991:991
     volumes:
       - ./volumes/pictrs:/mnt
@@ -78,7 +81,7 @@ services:
       - lemmyinternal
     environment:
       - POSTGRES_USER=lemmy
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:?err}
       - POSTGRES_DB=lemmy
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data

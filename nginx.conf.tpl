@@ -1,4 +1,4 @@
-limit_req_zone $binary_remote_addr zone=localhost_ratelimit:10m rate=1r/s;
+limit_req_zone ${DOLLAR}binary_remote_addr zone=${LEMMY_EXTERNAL_HOST}_ratelimit:10m rate=1r/s;
 
 server {
     listen 80;
@@ -8,18 +8,18 @@ server {
         root /var/www/certbot;
     }
     location / {
-        return 301 https://$host$request_uri;
+        return 301 https://${DOLLAR}host${DOLLAR}request_uri;
     }
 }
 
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name localhost;
+    server_name ${LEMMY_EXTERNAL_HOST};
     resolver 127.0.0.11 [::1]:5353;
 
-    ssl_certificate /etc/letsencrypt/live/localhost/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/localhost/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/${LEMMY_EXTERNAL_HOST}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${LEMMY_EXTERNAL_HOST}/privkey.pem;
 
     # Various TLS hardening settings
     # https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
@@ -60,37 +60,37 @@ server {
       # lemmy_ui_port: 1235
       # lemmy_port: 8536
 
-      set $proxpass "http://lemmy-ui:1234";
-      if ($http_accept ~ "^application/.*$") {
-        set $proxpass "http://lemmy:8536";
+      set ${DOLLAR}proxpass "http://lemmy-ui:1234";
+      if (${DOLLAR}http_accept ~ "^application/.*$") {
+        set ${DOLLAR}proxpass "http://lemmy:8536";
       }
-      if ($request_method = POST) {
-        set $proxpass "http://lemmy:8536";
+      if (${DOLLAR}request_method = POST) {
+        set ${DOLLAR}proxpass "http://lemmy:8536";
       }
-      proxy_pass $proxpass;
+      proxy_pass ${DOLLAR}proxpass;
 
-      rewrite ^(.+)/+$ $1 permanent;
+      rewrite ^(.+)/+${DOLLAR} ${DOLLAR}1 permanent;
 
       # Send actual client IP upstream
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header Host $host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+      proxy_set_header Host ${DOLLAR}host;
+      proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
     }
 
     # backend
     location ~ ^/(api|pictrs|feeds|nodeinfo|.well-known) {
       proxy_pass http://lemmy:8536;
       proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Upgrade ${DOLLAR}http_upgrade;
       proxy_set_header Connection "upgrade";
 
       # Rate limit
-      limit_req zone=localhost_ratelimit burst=30 nodelay;
+      limit_req zone=${LEMMY_EXTERNAL_HOST}_ratelimit burst=30 nodelay;
 
       # Add IP forwarding headers
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header Host $host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP ${DOLLAR}remote_addr;
+      proxy_set_header Host ${DOLLAR}host;
+      proxy_set_header X-Forwarded-For ${DOLLAR}proxy_add_x_forwarded_for;
     }
 
 
@@ -103,11 +103,11 @@ server {
 
 # Anonymize IP addresses
 # https://www.supertechcrew.com/anonymizing-logs-nginx-apache/
-map $remote_addr $remote_addr_anon {
-  ~(?P<ip>\d+\.\d+\.\d+)\.    $ip.0;
-  ~(?P<ip>[^:]+:[^:]+):       $ip::;
-  127.0.0.1                   $remote_addr;
-  ::1                         $remote_addr;
+map ${DOLLAR}remote_addr ${DOLLAR}remote_addr_anon {
+  ~(?P<ip>\d+\.\d+\.\d+)\.    ${DOLLAR}ip.0;
+  ~(?P<ip>[^:]+:[^:]+):       ${DOLLAR}ip::;
+  127.0.0.1                   ${DOLLAR}remote_addr;
+  ::1                         ${DOLLAR}remote_addr;
   default                     0.0.0.0;
 }
 access_log /var/log/nginx/access.log combined;
