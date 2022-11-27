@@ -2,3 +2,6 @@ volumes
 prod.env
 lemmy.*.hjson
 nginx.*.conf
+letsencrypt*
+!letsencrypt/live/localhost/fullchain.pem
+!letsencrypt/live/localhost/privkey.pem

@@ -20,7 +20,7 @@ services:
       - 443:443
     volumes:
       - ./nginx.${LEMMY_ENV:?err}.conf:/etc/nginx/conf.d/default.conf
-      - ./letsencrypt:/etc/letsencrypt/live
+      - ./letsencrypt:/etc/letsencrypt
       - ./certbot:/var/www/certbot
     restart: always
     environment:
