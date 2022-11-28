@@ -30,7 +30,7 @@
   # settings related to the postgresql database
   database: {
     # name of the postgres database for lemmy
-    database: "lemmy"
+    database: "lemmy_${LEMMY_ENV}"
     # username to connect to postgres
     user: "lemmy"
     # password to connect to postgres

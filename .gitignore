@@ -1,5 +1,6 @@
 volumes
-prod.env
+*.env
+!dev.env
 lemmy.*.hjson
 nginx.*.conf
 letsencrypt*
