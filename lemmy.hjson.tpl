@@ -10,6 +10,8 @@
     admin_password: "${ADMIN_PASSWORD}"
     # name of the site (can be changed later)
     site_name: "${SITE_NAME}"
+    # Email for the admin user (optional, can be omitted and set later through the website)
+    admin_email: "${ADMIN_EMAIL}"
   }
 
   # the domain name of your instance (eg "lemmy.ml")
@@ -45,6 +47,67 @@
     enabled: true
     # Can be easy, medium, or hard
     difficulty: "medium"
+  }
+  # Email sending configuration. All options except login/password are mandatory
+  email: {
+    # Hostname and port of the smtp server
+    smtp_server: "${SMTP_SERVER}"
+    # Login name for smtp server
+    smtp_login: "${SMTP_LOGIN}"
+    # Password to login to the smtp server
+    smtp_password: "${SMTP_PASSWORD}"
+    # Address to send emails from, eg noreply@your-instance.com
+    smtp_from_address: "${SMTP_FROM_ADDRESS}"
+    # Whether or not smtp connections should use tls. Can be none, tls, or starttls
+    tls_type: "${SMTP_TLS_TYPE}"
+  }
+  # Settings related to activitypub federation
+  federation: {
+    # Whether to enable activitypub federation.
+    enabled: true
+    # Allows and blocks are described here:
+    # https://join-lemmy.org/docs/en/administration/federation_getting_started.html
+    # 
+    # list of instances with which federation is allowed
+    allowed_instances: [
+      lemmy.ml
+    ]
+    # Instances which we never federate anything with (but previously federated objects are unaffected)
+    blocked_instances: []
+    # If true, only federate with instances on the allowlist and block everything else. If false
+    # use allowlist only for remote communities, and posts/comments in local communities
+    # (meaning remote communities will show content from arbitrary instances).
+    strict_allowlist: true
+    # Number of workers for sending outgoing activities. Search logs for Activity queue stats to
+    # see information. If running number is consistently close to the worker_count, you should
+    # increase it.
+    worker_count: 16
+  }
+  # rate limits for various user actions, by user ip
+  rate_limit: {
+    # Maximum number of messages created in interval
+    message: 180
+    # Interval length for message limit, in seconds
+    message_per_second: 60
+    # Maximum number of posts created in interval
+    post: 6
+    # Interval length for post limit, in seconds
+    post_per_second: 600
+    # Maximum number of registrations in interval
+    register: 3
+    # Interval length for registration limit, in seconds
+    register_per_second: 3600
+    # Maximum number of image uploads in interval
+    image: 6
+    # Interval length for image uploads, in seconds
+    image_per_second: 3600
+    # Maximum number of comments created in interval
+    comment: 6
+    # Interval length for comment limit, in seconds
+    comment_per_second: 600
+    search: 60
+    # Interval length for search limit, in seconds
+    search_per_second: 600
   }
 }
 
