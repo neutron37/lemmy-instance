@@ -61,7 +61,7 @@ server {
       # lemmy_port: 8536
 
       set ${DOLLAR}proxpass "http://lemmy-ui:1234";
-      if (${DOLLAR}http_accept ~ "^application/.*$") {
+      if (${DOLLAR}http_accept ~ "^application/.*${DOLLAR}") {
         set ${DOLLAR}proxpass "http://lemmy:8536";
       }
       if (${DOLLAR}request_method = POST) {
@@ -95,8 +95,8 @@ server {
 
 
     # Redirect pictshare images to pictrs
-    location ~ /pictshare/(.*)$ {
-      return 301 /pictrs/image/$1;
+    location ~ /pictshare/(.*)${DOLLAR} {
+      return 301 /pictrs/image/${DOLLAR}1;
     }
 
 }
