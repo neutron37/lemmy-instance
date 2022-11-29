@@ -81,8 +81,8 @@ services:
       - lemmyinternal
     environment:
       - POSTGRES_USER=lemmy
-      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:?err}
-      - POSTGRES_DB=lemmy_${LEMMY_ENV:?err}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?err}
+      - POSTGRES_DB=lemmy_${POSTGRES_DB:?err}
     volumes:
       - ./volumes/postgres:/var/lib/postgresql/data
     restart: always
