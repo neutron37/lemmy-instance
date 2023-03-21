@@ -34,7 +34,7 @@ In addition to `./lemmy-up.sh`, the following utility scripts are available.
 To create an enironment called "prod".
 
 ```
-# Use dev.env as a tmplate.
+# Use dev.env as a template.
 cp dev.env prod.env
 
 # Update all relevant values in the new .env file
@@ -68,6 +68,13 @@ docker exec -it lemmy-instance_proxy_1 sh
     nginx -s stop 
 
 # Finally try to access https://$YOURDOMAIN in a browser.
+```
+
+# Refreshing expired TLS keys with certbot
+
+```
+docker exec -it lemmy-instance_proxy_1 sh
+  certbot --nginx -d lemmy.darcy.social -m lemmy@darcy.is --agree-tos
 ```
 
 # How I got it working initially
